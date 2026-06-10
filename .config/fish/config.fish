@@ -63,5 +63,16 @@ function y
         cd -- "$cwd"
     end
     rm -f -- "$tmp"
+    # Restore tab title to current directory after exiting Yazi
+    set -l dir_name (basename (pwd))
+    if test (pwd) = $HOME
+        set dir_name "~"
+    end
+    bash ~/.config/kitty/scripts/set-tab-title.sh "$dir_name"
+end
+
+# Auto-start Yazi (dentro do tmux)
+if status is-interactive; and set -q TMUX; and not set -q YAZI_LEVEL
+    y
 end
 

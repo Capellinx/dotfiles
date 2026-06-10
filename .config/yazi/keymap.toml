@@ -1,0 +1,9 @@
+[[mgr.prepend_keymap]]
+on = "V"
+run = 'shell "nvim ." --block'
+desc = "Abrir nvim na pasta atual"
+
+[[mgr.prepend_keymap]]
+on = "S"
+run = 'shell "$SHELL" --block'
+desc = "Abrir shell"

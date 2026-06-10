@@ -7,6 +7,29 @@ vim.opt.number = true
 vim.opt.signcolumn = "yes"
 
 vim.opt.title = true
+
+-- Dynamic title: show project/directory name in Kitty tab
+vim.api.nvim_create_autocmd({ "BufEnter", "DirChanged" }, {
+	callback = function()
+		local bufname = vim.api.nvim_buf_get_name(0)
+		local dir
+
+		if bufname:match("^oil://") then
+			dir = bufname:gsub("^oil://", "")
+		elseif bufname ~= "" then
+			dir = vim.fn.fnamemodify(bufname, ":p:h")
+		else
+			dir = vim.fn.getcwd()
+		end
+
+		local home = vim.fn.expand("$HOME")
+		if dir == home or dir == home .. "/" then
+			vim.opt.titlestring = "~"
+		else
+			vim.opt.titlestring = vim.fn.fnamemodify(dir, ":t")
+		end
+	end,
+})
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.hlsearch = true

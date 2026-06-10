@@ -2,5 +2,11 @@
 *.swp
 *.swo
 *~
+*.save
+*.backup
 .config/tmux/plugins/
 .config/nvim/lazy-lock.json
+.config/fish/fish_variables
+.config/fish/completions/
+.config/yazi/flavors/
+.config/kitty/bookmarks/
