@@ -25,11 +25,7 @@ return {
 		},
 		opts = {
 			default_file_explorer = true,
-			columns = { "icon" },
-			win_options = {
-				number = false,
-				relativenumber = false,
-			},
+			columns = {},
 			delete_to_trash = true,
 			skip_confirm_for_simple_edits = true,
 			watch_for_changes = true,
@@ -49,6 +45,7 @@ return {
 				["<C-x>"] = { "actions.select", opts = { horizontal = true }, desc = "Open in horizontal split" },
 				["<C-t>"] = { "actions.select", opts = { tab = true }, desc = "Open in new tab" },
 				["<C-p>"] = "actions.preview",
+				["P"] = "actions.preview",
 				["q"] = { "actions.close", mode = "n" },
 				["<C-l>"] = "actions.refresh",
 				["-"] = { "actions.parent", mode = "n" },
@@ -90,6 +87,8 @@ return {
 			},
 			win_options = {
 				signcolumn = "yes:2",
+				number = false,
+				relativenumber = false,
 			},
 		},
 	},

@@ -20,10 +20,45 @@ set -g theme_hostname always
 zoxide init fish | source
 fzf --fish | source
 
-alias ls='eza --icons -1'
-alias ll='eza -l --icons --git'
-alias la='eza -a --icons'
-alias lla='eza -la --icons --git'
+function ls
+    set -l target "."
+    if test (count $argv) -gt 0
+        set target $argv[-1]
+    end
+    set -l dir (realpath $target)
+    echo ""
+    printf "    Directory: %s\n" $dir
+    echo ""
+    printf "\033[32m%-8s  %16s  %10s  %-s\033[0m\n" "Mode" "LastWriteTime" "Length" "Name"
+    printf "%-8s  %16s  %10s  %-s\n" "----" "-------------" "------" "----"
+    command ls -lAT $target | tail -n +2 | while read -l line
+        set -l perms (string sub -l 10 -- $line)
+        set -l rest (string replace -r '^[^ ]+\s+\d+\s+\S+\s+\S+\s+' '' -- $line)
+        set -l size (string match -r '^\d+' -- $rest)
+        set rest (string replace -r '^\d+\s+' '' -- $rest)
+        # -T gives: Mon DD HH:MM:SS YYYY Name
+        set -l mon (string match -r '^\S+' -- $rest)
+        set rest (string replace -r '^\S+\s+' '' -- $rest)
+        set -l day (string match -r '^\d+' -- $rest)
+        set rest (string replace -r '^\d+\s+' '' -- $rest)
+        set -l time_full (string match -r '^\S+' -- $rest)
+        set rest (string replace -r '^\S+\s+' '' -- $rest)
+        set -l year (string match -r '^\d{4}' -- $rest)
+        set -l name (string replace -r '^\d{4}\s+' '' -- $rest)
+        set -l time_short (string replace -r '(\d+:\d+):\d+' '$1' -- $time_full)
+        set -l date_str "$day.$mon.$year  $time_short"
+        set -l mode "-a---"
+        if string match -q 'd*' -- $perms
+            set mode "d----"
+            set size ""
+        end
+        printf "%-8s  %16s  %10s  %s\n" $mode $date_str $size $name
+    end
+    echo ""
+end
+alias ll='ls'
+alias la='ls -a'
+alias lla='ls -a'
 alias lt='eza -T --git --icons'
 alias g='git'
 alias c='claude'
