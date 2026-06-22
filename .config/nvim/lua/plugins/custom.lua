@@ -89,6 +89,7 @@ return {
 				signcolumn = "yes:2",
 				number = false,
 				relativenumber = false,
+
 			},
 		},
 	},
