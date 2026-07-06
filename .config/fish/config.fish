@@ -22,8 +22,10 @@ fzf --fish | source
 
 function ls
     set -l target "."
-    if test (count $argv) -gt 0
-        set target $argv[-1]
+    for arg in $argv
+        if not string match -q -- '-*' $arg
+            set target $arg
+        end
     end
     set -l dir (realpath $target)
     echo ""
@@ -31,7 +33,11 @@ function ls
     echo ""
     printf "\033[32m%-8s  %16s  %10s  %-s\033[0m\n" "Mode" "LastWriteTime" "Length" "Name"
     printf "%-8s  %16s  %10s  %-s\n" "----" "-------------" "------" "----"
-    command ls -lAT $target | tail -n +2 | while read -l line
+    set -l ls_flags -lT
+    if contains -- -a $argv; or contains -- -A $argv
+        set ls_flags -lAT
+    end
+    command ls $ls_flags $target | tail -n +2 | while read -l line
         set -l perms (string sub -l 10 -- $line)
         set -l rest (string replace -r '^[^ ]+\s+\d+\s+\S+\s+\S+\s+' '' -- $line)
         set -l size (string match -r '^\d+' -- $rest)
@@ -65,7 +71,7 @@ alias c='claude'
 command -qv nvim && alias vim nvim
 alias spotify="ncspot"
 alias reset='source ~/.config/fish/config.fish'
-alias ios='xcrun simctl boot "iPhone 16" && open -a Simulator'
+# ios: função com seletor de device (ver ~/.config/fish/functions/ios.fish)
 alias android='emulator -avd Pixel_4'
 alias doapps='doctl apps list --format ID,Spec.Name,ActiveDeployment.ID,InProgressDeployment.ID,Updated'
 alias dodeploys='doctl apps list-deployments'
@@ -111,3 +117,7 @@ if status is-interactive; and set -q TMUX; and not set -q YAZI_LEVEL
     y
 end
 
+
+# Added by OrbStack: command-line tools and integration
+# This won't be added again if you remove it.
+source ~/.orbstack/shell/init2.fish 2>/dev/null || :
