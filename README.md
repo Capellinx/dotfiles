@@ -11,6 +11,7 @@ Based on [craftzdog/dotfiles-public](https://github.com/craftzdog/dotfiles-publi
 - **Fish** - tide prompt, eza aliases, zoxide, fzf integration
 - **Ghostty** - solarized dark theme, transparency, FiraCode Nerd Font
 - **shiki** - terminal notes app, solarized-dark theme config
+- **Claude Code** - custom statusline (context/rate-limit/git/CI info), enabled plugins
 
 ## Prerequisites
 
@@ -72,6 +73,10 @@ cp ~/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
 # shiki doesn't use ~/.config, it reads from ~/Library/Application Support
 mkdir -p ~/Library/Application\ Support/shiki
 ln -sf ~/dotfiles/.config/shiki/config.toml ~/Library/Application\ Support/shiki/config.toml
+
+# Claude Code settings + statusline
+ln -sf ~/dotfiles/.claude/settings.json ~/.claude/settings.json
+ln -sf ~/dotfiles/.claude/statusline-command.sh ~/.claude/statusline-command.sh
 ```
 
 ### 6. Open Ghostty and finish setup
