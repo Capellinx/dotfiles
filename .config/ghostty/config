@@ -3,15 +3,17 @@ theme = "Solarized Dark Patched"
 background-opacity = 0.9
 background-blur-radius = 20
 background = #031219
+foreground = #ffffff
 
 font-family = "FiraCode Nerd Font Mono"
-font-size = 14
+font-size = 20
 adjust-cell-height = 1
 
 cursor-style = block
 cursor-style-blink = true
 
 shell-integration = fish
+window-inherit-working-directory = true
 
 macos-option-as-alt = left
 keybind = alt+left=unbind

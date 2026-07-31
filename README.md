@@ -10,12 +10,14 @@ Based on [craftzdog/dotfiles-public](https://github.com/craftzdog/dotfiles-publi
 - **tmux** - C-t prefix, lazygit/claude code popups, solarized statusline
 - **Fish** - tide prompt, eza aliases, zoxide, fzf integration
 - **Ghostty** - solarized dark theme, transparency, FiraCode Nerd Font
+- **shiki** - terminal notes app, solarized-dark theme config
 
 ## Prerequisites
 
 - macOS (tested on Apple Silicon)
 - [Homebrew](https://brew.sh)
 - Git
+- [Rust/Cargo](https://rustup.rs) (for shiki)
 - [FiraCode Nerd Font](https://www.nerdfonts.com/font-downloads)
 
 ## Manual setup
@@ -23,8 +25,11 @@ Based on [craftzdog/dotfiles-public](https://github.com/craftzdog/dotfiles-publi
 ### 1. Install dependencies
 
 ```bash
-brew install neovim tmux fish ghostty eza zoxide fzf lazygit lazydocker
+brew install neovim tmux fish ghostty eza zoxide fzf lazygit lazydocker vi-mongo
+cargo install shiki
 ```
+
+> **vi-mongo** (MongoDB TUI client) config lives in `~/Library/Application Support/vi-mongo/config.yaml` and typically holds connection strings/credentials, so it's intentionally **not** tracked in this repo. Configure connections manually after installing.
 
 ### 2. Set fish as default shell
 
@@ -63,6 +68,10 @@ ln -sf ~/dotfiles/.config/nvim ~/.config/nvim
 ln -sf ~/dotfiles/.config/tmux ~/.config/tmux
 ln -sf ~/dotfiles/.config/ghostty ~/.config/ghostty
 cp ~/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
+
+# shiki doesn't use ~/.config, it reads from ~/Library/Application Support
+mkdir -p ~/Library/Application\ Support/shiki
+ln -sf ~/dotfiles/.config/shiki/config.toml ~/Library/Application\ Support/shiki/config.toml
 ```
 
 ### 6. Open Ghostty and finish setup

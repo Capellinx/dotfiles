@@ -1,0 +1,99 @@
+[general]
+default_notebook = "personal"
+editor = "nvim"
+daily_template = "daily"
+use_favorite_editor = false
+mouse_drag_selection = true
+show_hints = true
+
+[keybindings]
+leader = "space"
+quit = "q"
+
+[keybindings.global]
+theme_picker = "c"
+global_search = "g"
+tags_panel = "T"
+logs = "l"
+toggle_favorite_editor = "e"
+check_update = "U"
+drawer = "b"
+undo_delete = "u"
+settings = "s"
+
+[keybindings.notebooks]
+new = "a"
+rename = "r"
+delete = "d"
+sync = "s"
+pull = "p"
+pull_all = "P"
+set_remote = "R"
+push = "u"
+
+[keybindings.notes]
+new = "a"
+rename = "r"
+delete = "d"
+edit_inline = "i"
+edit_external = "E"
+search = "/"
+daily_note = "t"
+move_to_notebook = "m"
+sort = "o"
+tree_view = "T"
+toggle_dates = "D"
+new_folder = "f"
+visual = "v"
+copy_entries = "y"
+
+[keybindings.preview]
+edit_inline = "i"
+edit_external = "E"
+history = "H"
+links = "L"
+
+[theme]
+name = "solarized-dark"
+bg = "#001419"
+fg = "#839395"
+accent = "#268bd3"
+selection = "#002c38"
+border = "#576d74"
+statusbar = "#002c38"
+highlight = "#b28500"
+error = "#db302d"
+warning = "#c94c16"
+success = "#849900"
+inactive = "#576d74"
+scrollbar = "#002c38"
+tab_active = "#6c71c4"
+tab_inactive = "#576d74"
+panel_title = "#d23681"
+cursor = "#839395"
+link = "#268bd3"
+tag = "#6c71c4"
+muted = "#647a82"
+
+[git]
+auto_commit = true
+auto_push = false
+commit_prefix = "shiki: "
+remote = "origin"
+branch = "main"
+sign_commits = false
+auto_sync = false
+auto_sync_every = 5
+remote_template = ""
+
+[editor]
+mouse_selection = true
+find_replace = true
+os_clipboard = false
+select_all_ctrl_a = false
+line_numbers = false
+multi_cursor = false
+
+[notebooks]
+
+[snippets]
