@@ -76,6 +76,8 @@ return {
 							},
 							staticcheck = true,
 							gofumpt = true,
+							completeUnimported = true,
+							completionBudget = "500ms",
 						},
 					},
 				},

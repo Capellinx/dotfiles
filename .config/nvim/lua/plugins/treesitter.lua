@@ -46,7 +46,7 @@ return {
 			query_linter = {
 				enable = true,
 				use_virtual_text = true,
-				lint_events = { "BufWrite", "CursorHold" },
+				lint_events = { "BufWrite" },
 			},
 
 			playground = {
@@ -71,6 +71,7 @@ return {
 		config = function(_, opts)
 			local TS = require("nvim-treesitter")
 			TS.setup(opts)
+			LazyVim.treesitter.get_installed(true) -- initialize the installed langs, needed by LazyVim.treesitter.have()
 
 			-- MDX
 			vim.filetype.add({
@@ -79,6 +80,34 @@ return {
 				},
 			})
 			vim.treesitter.language.register("markdown", "mdx")
+
+			-- This config() replaces LazyVim's own, which is what actually
+			-- turns on highlight/indent/folds via vim.treesitter.start().
+			-- Re-add it here so parsers (e.g. terraform) actually highlight.
+			vim.api.nvim_create_autocmd("FileType", {
+				group = vim.api.nvim_create_augroup("lazyvim_treesitter", { clear = true }),
+				callback = function(ev)
+					local ft = ev.match
+					if vim.bo[ev.buf].filetype == "bigfile" or vim.b[ev.buf].bigfile then
+						return
+					end
+					if not LazyVim.treesitter.have(ft) then
+						return
+					end
+
+					pcall(vim.treesitter.start, ev.buf)
+
+					if LazyVim.treesitter.have(ft, "indents") then
+						LazyVim.set_default("indentexpr", "v:lua.LazyVim.treesitter.indentexpr()")
+					end
+
+					if LazyVim.treesitter.have(ft, "folds") then
+						if LazyVim.set_default("foldmethod", "expr") then
+							LazyVim.set_default("foldexpr", "v:lua.LazyVim.treesitter.foldexpr()")
+						end
+					end
+				end,
+			})
 		end,
 	},
 }
