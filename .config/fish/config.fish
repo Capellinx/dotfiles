@@ -69,7 +69,9 @@ alias lt='eza -T --git --icons'
 alias g='git'
 alias c='claude'
 command -qv nvim && alias vim nvim
+alias mongo="vi-mongo"
 alias spotify="ncspot"
+alias mail="neomutt"
 alias reset='source ~/.config/fish/config.fish'
 # ios: função com seletor de device (ver ~/.config/fish/functions/ios.fish)
 alias android='emulator -avd Pixel_4'
@@ -110,11 +112,6 @@ function y
         set dir_name "~"
     end
     bash ~/.config/kitty/scripts/set-tab-title.sh "$dir_name"
-end
-
-# Auto-start Yazi (dentro do tmux)
-if status is-interactive; and set -q TMUX; and not set -q YAZI_LEVEL
-    y
 end
 
 
