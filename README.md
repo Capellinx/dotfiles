@@ -10,7 +10,7 @@ Based on [craftzdog/dotfiles-public](https://github.com/craftzdog/dotfiles-publi
 - **tmux** - C-t prefix, lazygit/claude code popups, solarized statusline
 - **Fish** - tide prompt, eza aliases, zoxide, fzf integration
 - **Ghostty** - solarized dark theme, transparency, FiraCode Nerd Font
-- **shiki** - terminal notes app, solarized-dark theme config
+- **shiki** - terminal notes app, onedark.nvim "darker" theme config
 - **Claude Code** - custom statusline (context/rate-limit/git/CI info), enabled plugins
 
 ## Prerequisites
