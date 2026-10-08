@@ -10,6 +10,11 @@ return {
 					hide_gitignored = false,
 				},
 			},
+			window = {
+				mappings = {
+					["P"] = { "toggle_preview", config = { use_float = true } },
+				},
+			},
 		},
 	},
 
@@ -115,6 +120,12 @@ return {
 				go = { "goimports", "gofmt" },
 				terraform = { "terraform_fmt" },
 				hcl = { "terraform_fmt" },
+				sql = { "sql_formatter" },
+			},
+			formatters = {
+				sql_formatter = {
+					args = { "-l", "postgresql" },
+				},
 			},
 		},
 	},

@@ -24,6 +24,8 @@ return {
 				"docker-compose-language-service",
 				"yaml-language-server",
 				"js-debug-adapter",
+				"sqls",
+				"sql-formatter",
 			})
 		end,
 	},
@@ -99,6 +101,12 @@ return {
 							},
 						},
 					},
+				},
+				sqls = {
+					on_attach = function(client)
+						client.server_capabilities.documentFormattingProvider = false
+						client.server_capabilities.documentRangeFormattingProvider = false
+					end,
 				},
 				lua_ls = {
 					-- enabled = false,

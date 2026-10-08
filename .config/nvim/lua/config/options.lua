@@ -3,7 +3,7 @@ vim.g.mapleader = " "
 vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 
-vim.opt.number = false
+vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.signcolumn = "yes"
 
@@ -56,7 +56,7 @@ vim.opt.splitbelow = true -- Put new windows below current
 vim.opt.splitright = true -- Put new windows right of current
 vim.opt.splitkeep = "cursor"
 vim.opt.mouse = ""
-vim.opt.fillchars = { eob = "~" }
+vim.opt.fillchars = { eob = " " }
 vim.opt.shortmess:remove("I")
 
 -- Undercurl

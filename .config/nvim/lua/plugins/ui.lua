@@ -72,28 +72,107 @@ return {
 		keys = {},
 	},
 
-	-- buffer line
+	-- LazyVim ships its own bufferline.nvim by default; disable it since
+	-- we replace the tabline with nvim-cokeline below.
+	{ "akinsho/bufferline.nvim", enabled = false },
+
+	-- buffer line (rounded "pill" tabs)
 	{
-		"akinsho/bufferline.nvim",
+		"willothy/nvim-cokeline",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
 		event = "VeryLazy",
 		keys = {
-			{ "<Tab>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
-			{ "<S-Tab>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev buffer" },
-			{ "<S-l>", "<Cmd>BufferLineCycleNext<CR>", desc = "Next buffer" },
-			{ "<S-h>", "<Cmd>BufferLineCyclePrev<CR>", desc = "Prev buffer" },
+			{ "<Tab>", "<Plug>(cokeline-focus-next)", desc = "Next buffer" },
+			{ "<S-Tab>", "<Plug>(cokeline-focus-prev)", desc = "Prev buffer" },
+			{ "<S-l>", "<Plug>(cokeline-focus-next)", desc = "Next buffer" },
+			{ "<S-h>", "<Plug>(cokeline-focus-prev)", desc = "Prev buffer" },
 		},
-		opts = {
-			options = {
-				mode = "buffers",
-				show_buffer_close_icons = false,
-				show_close_icon = false,
-				always_show_bufferline = true,
-				separator_style = { "", "" },
-				indicator = {
-					style = "none",
+		config = function()
+			vim.o.showtabline = 2
+
+			local colors = require("onedark.colors")
+
+			local function pill_bg(buffer)
+				return buffer.is_focused and colors.bg3 or colors.bg1
+			end
+
+			local function pill_fg(buffer)
+				return buffer.is_focused and colors.fg or colors.light_grey
+			end
+
+			require("cokeline").setup({
+				default_hl = {
+					fg = pill_fg,
+					bg = pill_bg,
 				},
-			},
-		},
+				sidebar = {
+					filetype = { "neo-tree" },
+					components = {
+						{
+							text = function(buf)
+								return " " .. buf.filetype .. " "
+							end,
+							fg = colors.light_grey,
+							bg = colors.bg0,
+							bold = true,
+						},
+					},
+				},
+				components = {
+					{
+						text = "",
+						fg = pill_bg,
+						bg = colors.bg0,
+					},
+					{
+						text = function(buffer)
+							return " " .. buffer.index .. ". "
+						end,
+						fg = pill_fg,
+						bg = pill_bg,
+					},
+					{
+						text = function(buffer)
+							return buffer.devicon.icon
+						end,
+						fg = function(buffer)
+							return buffer.is_focused and buffer.devicon.color or pill_fg(buffer)
+						end,
+						bg = pill_bg,
+					},
+					{
+						text = function(buffer)
+							return " " .. buffer.filename .. " "
+						end,
+						bold = function(buffer)
+							return buffer.is_focused
+						end,
+						bg = pill_bg,
+					},
+					{
+						text = function(buffer)
+							return buffer.is_modified and "● " or "󰅖 "
+						end,
+						fg = function(buffer)
+							return buffer.is_modified and colors.yellow or pill_fg(buffer)
+						end,
+						bg = pill_bg,
+						on_click = function(_, _, _, _, buffer)
+							buffer:delete()
+						end,
+					},
+					{
+						text = "",
+						fg = pill_bg,
+						bg = colors.bg0,
+					},
+					{
+						text = " ",
+						bg = colors.bg0,
+					},
+				},
+			})
+		end,
 	},
 
 	-- filename
@@ -185,10 +264,4 @@ return {
 		},
 	},
 
-	{
-		"folke/snacks.nvim",
-		opts = {
-			dashboard = { enabled = false },
-		},
-	},
 }
