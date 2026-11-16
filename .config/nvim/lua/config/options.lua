@@ -80,6 +80,7 @@ vim.filetype.add({
 	},
 })
 
-vim.g.lazyvim_prettier_needs_config = true
+vim.g.lazyvim_prettier_needs_config = false
+vim.g.autoformat = false -- no format on save; use <leader>cf to format manually
 vim.g.lazyvim_picker = "telescope"
 vim.g.lazyvim_cmp = "blink.cmp"

@@ -117,7 +117,7 @@ return {
 				markdown = { "prettierd", "prettier", stop_after_first = true },
 				graphql = { "prettierd", "prettier", stop_after_first = true },
 				python = { "ruff_format" },
-				go = { "goimports", "gofmt" },
+				go = { "goimports", "gofumpt" },
 				terraform = { "terraform_fmt" },
 				hcl = { "terraform_fmt" },
 				sql = { "sql_formatter" },
