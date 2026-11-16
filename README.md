@@ -6,11 +6,14 @@ Based on [craftzdog/dotfiles-public](https://github.com/craftzdog/dotfiles-publi
 
 ## What's included
 
-- **Neovim** (LazyVim) - solarized-osaka theme, oil.nvim file explorer, telescope, toggleterm, supermaven AI, zen-mode, DAP debugging
-- **tmux** - C-t prefix, lazygit/claude code popups, solarized statusline
-- **Fish** - tide prompt, eza aliases, zoxide, fzf integration
-- **Ghostty** - solarized dark theme, transparency, FiraCode Nerd Font
-- **shiki** - terminal notes app, onedark.nvim "darker" theme config
+Everything uses the same **Catppuccin Macchiato** theme (nvim, tmux, Ghostty, vi-mongo).
+
+- **Neovim** (LazyVim) - catppuccin theme, neo-tree file explorer, telescope, cokeline buffer tabs, toggleterm, supermaven AI, zen-mode, DAP debugging, treesitter-context, test runner, VS Code-like multi-cursor and inline (Error Lens style) diagnostics. Format on save is off: format manually with `<leader>cf`
+- **tmux** - C-Space prefix, lazygit/claude code popups, catppuccin statusline. Not auto-started: open it on demand with `t`
+- **Fish** - tide prompt, eza aliases, zoxide, fzf integration, `t` tmux helper, `android`/`ios` emulator pickers
+- **Ghostty** - Catppuccin Macchiato theme, transparency, FiraCode Nerd Font
+- **vi-mongo** - catppuccin and onedark style files
+- **shiki** - terminal notes app config
 - **Claude Code** - custom statusline (context/rate-limit/git/CI info), enabled plugins
 
 ## Prerequisites
@@ -68,6 +71,7 @@ cp -r ~/.config/ghostty ~/.config-backup/ 2>/dev/null
 ln -sf ~/dotfiles/.config/nvim ~/.config/nvim
 ln -sf ~/dotfiles/.config/tmux ~/.config/tmux
 ln -sf ~/dotfiles/.config/ghostty ~/.config/ghostty
+cp -r ~/dotfiles/.config/fish/functions/. ~/.config/fish/functions/
 cp ~/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
 
 # shiki doesn't use ~/.config, it reads from ~/Library/Application Support
@@ -82,8 +86,9 @@ ln -sf ~/dotfiles/.claude/statusline-command.sh ~/.claude/statusline-command.sh
 ### 6. Open Ghostty and finish setup
 
 ```bash
-# Inside tmux (starts automatically), install tmux plugins:
-# Press Ctrl+t, then I (capital i)
+# Start tmux (it is not auto-started) and install tmux plugins:
+t
+# Press Ctrl+Space, then I (capital i)
 
 # Configure tide prompt:
 tide configure
@@ -114,18 +119,26 @@ Then ask:
 
 ### Neovim
 
-**File navigation:** `<leader>o` oil float, `<leader>e` oil cwd, `sf` telescope file browser, `;f` find files, `;r` live grep
+**File navigation:** `<leader>e` neo-tree (root), `<leader>E` neo-tree (cwd), `sf` telescope file browser, `;f` find files, `;r` live grep, `<Tab>`/`<S-Tab>` next/prev buffer
 
 **LSP:** `gd` go to definition, `gr` references, `K` hover, `<leader>rn` rename
 
 **Git:** `<leader>gg` lazygit, `<leader>gb` git blame
 
-**Editing:** `x` delete char (no copy), `<leader>p` paste from yank, `ss`/`sv` splits, `<leader>z` zen mode
+**Editing:** `x` delete char (no copy), `<leader>p` paste from yank, `ss`/`sv` splits, `<leader>z` zen mode, `<leader>cf` format
 
-### tmux (prefix: Ctrl+t)
+**Multi-cursor:** `<C-n>` add cursor at next match, `<leader>A` cursors at all matches, `<M-Up>`/`<M-Down>` add cursor above/below, `<C-q>` skip match, `<Esc>` clear cursors
+
+**Popups:** `<leader>tt` terminal, `<leader>ai` Claude Code, `<leader>ld` lazydocker
+
+### tmux (prefix: Ctrl+Space)
 
 `c` new window, `n`/`p` next/prev window, `"` split horizontal, `%` split vertical, `g` lazygit popup, `y` claude code popup, `r` reload config
 
 ### Fish
 
-`g` = git, `c` = claude, `vim` = nvim, `ls`/`ll`/`la`/`lt` = eza variants
+`g` = git, `c` = claude, `vim` = nvim, `ls`/`ll`/`la`/`lt` = eza variants, `mongo` = vi-mongo
+
+`t` new tmux session, `t NAME` attach/create session NAME, `t -l` list sessions
+
+`android` pick an AVD with fzf and open it in the emulator, `ios` pick an iOS simulator and boot it
