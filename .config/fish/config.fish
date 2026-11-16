@@ -3,10 +3,18 @@ set -x EDITOR nvim
 set -x SHELL /opt/homebrew/bin/fish
 set -gx TERM xterm-256color
 
-# Auto-start tmux (each terminal tab gets its own session)
-if status is-interactive; and not set -q TMUX
-    set -l session_name "tab-"(random)
-    tmux new-session -A -s $session_name
+# tmux is no longer auto-started. Open it on demand with `t`:
+#   t          new session with a random name (same as the old per-tab behavior)
+#   t NAME     attach to session NAME, creating it if needed
+#   t -l       list sessions (attach to one with `t NAME`)
+function t
+    if test (count $argv) -eq 0
+        tmux new-session -s "tab-"(random)
+    else if test "$argv[1]" = -l
+        tmux list-sessions
+    else
+        tmux new-session -A -s $argv[1]
+    end
 end
 
 # Tide theme
