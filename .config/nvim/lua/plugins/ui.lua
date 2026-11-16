@@ -90,7 +90,15 @@ return {
 		config = function()
 			vim.o.showtabline = 2
 
-			local colors = require("onedark.colors")
+			local palette = require("catppuccin.palettes").get_palette("macchiato")
+			local colors = {
+				bg0 = palette.mantle,
+				bg1 = palette.surface0,
+				bg3 = palette.surface1,
+				fg = palette.text,
+				light_grey = palette.overlay1,
+				yellow = palette.yellow,
+			}
 
 			local function pill_bg(buffer)
 				return buffer.is_focused and colors.bg3 or colors.bg1

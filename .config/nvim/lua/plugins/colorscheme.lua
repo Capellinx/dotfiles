@@ -15,20 +15,18 @@ return {
 		end,
 	},
 	{
-		"navarasu/onedark.nvim",
+		"catppuccin/nvim",
+		name = "catppuccin",
 		lazy = false,
 		priority = 1000,
 		opts = {
-			style = "darker",
-			transparent = true,
+			flavour = "macchiato",
+			transparent_background = true,
 			term_colors = true,
-			highlights = {
-				EndOfBuffer = { fg = "#535965" },
-			},
 		},
 		config = function(_, opts)
-			require("onedark").setup(opts)
-			require("onedark").load()
+			require("catppuccin").setup(opts)
+			vim.cmd.colorscheme("catppuccin-macchiato")
 		end,
 	},
 }

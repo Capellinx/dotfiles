@@ -1,0 +1,89 @@
+global:
+    backgroundColor: default
+    contrastBackgroundColor: '#282c34'
+    moreContrastBackgroundColor: '#30363f'
+    textColor: '#a0a8b7'
+    secondaryTextColor: '#e2b86b'
+    borderColor: '#535965'
+    focusColor: '#4fa6ed'
+    titleColor: '#bf68d9'
+    graphicsColor: '#4fa6ed'
+welcome:
+    formLabelColor: '#e2b86b'
+    formInputColor: '#a0a8b7'
+    formInputBackgroundColor: '#282c34'
+connection:
+    formLabelColor: '#e2b86b'
+    formInputBackgroundColor: '#282c34'
+    formInputColor: '#a0a8b7'
+    listTextColor: '#a0a8b7'
+    listSelectedTextColor: '#1f2329'
+    listSelectedBackgroundColor: '#4fa6ed'
+    listSecondaryTextColor: '#7a818e'
+    listSecondaryBackgroundColor: default
+header:
+    keyColor: '#e2b86b'
+    valueColor: '#8ebd6b'
+    activeSymbol: ●
+    inactiveSymbol: ○
+tabBar:
+    activeTextColor: '#1f2329'
+    activeBackgroundColor: '#4fa6ed'
+databases:
+    nodeTextColor: '#4fa6ed'
+    leafTextColor: '#a0a8b7'
+    nodeSymbolColor: '#e2b86b'
+    leafSymbolColor: '#48b0bd'
+    openNodeSymbol: ' '
+    closedNodeSymbol: ' '
+    leafSymbol: "\U000F0219 "
+content:
+    statusTextColor: '#e2b86b'
+    headerRowColor: '#282c34'
+    columnKeyColor: '#e55561'
+    columnTypeColor: '#7a818e'
+    cellTextColor: '#8ebd6b'
+    selectedRowColor: '#4fa6ed'
+    multiSelectedRowColor: '#323641'
+aiQuery:
+    formLabelColor: '#bf68d9'
+    formInputBackgroundColor: '#282c34'
+    formInputColor: '#a0a8b7'
+docPeeker:
+    keyColor: '#e55561'
+    valueColor: '#8ebd6b'
+    bracketColor: '#e2b86b'
+    highlightColor: '#30363f'
+inputBar:
+    labelColor: '#bf68d9'
+    inputColor: '#a0a8b7'
+    autocomplete:
+        backgroundColor: '#282c34'
+        textColor: '#a0a8b7'
+        activeBackgroundColor: '#4fa6ed'
+        activeTextColor: '#1f2329'
+        secondaryTextColor: '#7a818e'
+history:
+    textColor: '#a0a8b7'
+    selectedTextColor: '#1f2329'
+    selectedBackgroundColor: '#4fa6ed'
+help:
+    headerColor: '#bf68d9'
+    keyColor: '#e2b86b'
+    descriptionColor: '#a0a8b7'
+    scrollBarThumbColor: '#4fa6ed'
+    scrollBarTrackColor: '#30363f'
+    selectedTextColor: '#1f2329'
+    selectedBackgroundColor: '#4fa6ed'
+others:
+    buttonsTextColor: '#1f2329'
+    buttonsBackgroundColor: '#4fa6ed'
+    deleteButtonSelectedBackgroundColor: '#e55561'
+    modalTextColor: '#a0a8b7'
+    modalSecondaryTextColor: '#7a818e'
+    separatorSymbol: '|'
+    separatorColor: '#535965'
+styleChange:
+    textColor: '#a0a8b7'
+    selectedTextColor: '#1f2329'
+    selectedBackgroundColor: '#4fa6ed'
