@@ -10,3 +10,4 @@
 .config/fish/completions/
 .config/yazi/flavors/
 .config/kitty/bookmarks/
+.claude/settings.json

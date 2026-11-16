@@ -14,7 +14,7 @@ Everything uses the same **Catppuccin Macchiato** theme (nvim, tmux, Ghostty, vi
 - **Ghostty** - Catppuccin Macchiato theme, transparency, FiraCode Nerd Font
 - **vi-mongo** - catppuccin and onedark style files
 - **shiki** - terminal notes app config
-- **Claude Code** - custom statusline (context/rate-limit/git/CI info), enabled plugins
+- **Claude Code** - custom statusline (context/rate-limit/git/CI info)
 
 ## Prerequisites
 
@@ -78,8 +78,7 @@ cp ~/dotfiles/.config/fish/config.fish ~/.config/fish/config.fish
 mkdir -p ~/Library/Application\ Support/shiki
 ln -sf ~/dotfiles/.config/shiki/config.toml ~/Library/Application\ Support/shiki/config.toml
 
-# Claude Code settings + statusline
-ln -sf ~/dotfiles/.claude/settings.json ~/.claude/settings.json
+# Claude Code statusline (add a "statusLine" entry pointing to it in ~/.claude/settings.json)
 ln -sf ~/dotfiles/.claude/statusline-command.sh ~/.claude/statusline-command.sh
 ```
 
