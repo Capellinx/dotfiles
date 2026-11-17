@@ -79,3 +79,9 @@ keymap.set("t", "<C-h>", "<C-\\><C-n><C-w>h", { desc = "Move to left window" })
 keymap.set("t", "<C-j>", "<C-\\><C-n><C-w>j", { desc = "Move to bottom window" })
 keymap.set("t", "<C-k>", "<C-\\><C-n><C-w>k", { desc = "Move to top window" })
 keymap.set("t", "<C-l>", "<C-\\><C-n><C-w>l", { desc = "Move to right window" })
+
+-- Terminal flutuante com Ctrl+- (o Ghostty manda <C--> em vez de <C-_>,
+-- então o atalho padrão do LazyVim não pegava). Ctrl+/ também funciona.
+keymap.set({ "n", "t" }, "<C-->", function()
+	Snacks.terminal.focus(nil, { cwd = LazyVim.root() })
+end, { desc = "Terminal (Root Dir)" })

@@ -1,7 +1,11 @@
 return {
 	-- messages, cmdline and the popupmenu
+	-- noice desligado: cmdline/mensagens agora vêm do vim._core.ui2 nativo
+	-- (ver lua/config/options.lua) + tiny-cmdline. Para voltar, troque
+	-- enabled para true e remova o bloco do ui2 em options.lua.
 	{
 		"folke/noice.nvim",
+		enabled = false,
 		opts = function(_, opts)
 			table.insert(opts.routes, {
 				filter = {
@@ -51,10 +55,31 @@ return {
 
 			opts.presets.lsp_doc_border = true
 
+			-- `:` flutuante no topo/centro (como o tiny-cmdline do craftzdog)
 			opts.cmdline = {
-				view = "cmdline",
+				view = "cmdline_popup",
 			}
+			opts.views = vim.tbl_deep_extend("force", opts.views or {}, {
+				cmdline_popup = {
+					position = { row = "20%", col = "50%" },
+					size = { width = 60, height = "auto" },
+				},
+				popupmenu = {
+					relative = "editor",
+					position = { row = "20%+3", col = "50%" },
+					size = { width = 60, height = 10 },
+				},
+			})
 		end,
+	},
+
+	-- `:` flutuante no topo/centro (precisa do ui2)
+	{
+		"rachartier/tiny-cmdline.nvim",
+		lazy = false,
+		opts = {
+			position = { y = "20%" },
+		},
 	},
 
 	{
@@ -68,6 +93,17 @@ return {
 		"snacks.nvim",
 		opts = {
 			scroll = { enabled = false },
+			dashboard = {
+				preset = {
+					header = [[
+███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝]],
+				},
+			},
 		},
 		keys = {},
 	},
@@ -90,14 +126,14 @@ return {
 		config = function()
 			vim.o.showtabline = 2
 
-			local palette = require("catppuccin.palettes").get_palette("macchiato")
+			local c = require("solarized-osaka.colors").setup()
 			local colors = {
-				bg0 = palette.mantle,
-				bg1 = palette.surface0,
-				bg3 = palette.surface1,
-				fg = palette.text,
-				light_grey = palette.overlay1,
-				yellow = palette.yellow,
+				bg0 = c.base04,
+				bg1 = c.base03,
+				bg3 = c.base02,
+				fg = c.base1,
+				light_grey = c.base01,
+				yellow = c.yellow,
 			}
 
 			local function pill_bg(buffer)

@@ -130,29 +130,6 @@ return {
 				end,
 				desc = "Lists LSP incoming calls for word under the cursor",
 			},
-			{
-				"sf",
-				function()
-					local telescope = require("telescope")
-
-					local function telescope_buffer_dir()
-						return vim.fn.expand("%:p:h")
-					end
-
-					telescope.extensions.file_browser.file_browser({
-						path = "%:p:h",
-						cwd = telescope_buffer_dir(),
-						respect_gitignore = false,
-						hidden = true,
-						grouped = true,
-						previewer = false,
-						initial_mode = "normal",
-						layout_config = { height = 40 },
-						display_stat = false,
-					})
-				end,
-				desc = "Open File Browser with the path of the current buffer",
-			},
 		},
 		config = function(_, opts)
 			local telescope = require("telescope")
@@ -182,7 +159,7 @@ return {
 				file_browser = {
 					theme = "dropdown",
 					-- disables netrw and use telescope-file-browser in its place
-					hijack_netrw = true,
+					hijack_netrw = false, -- oil.nvim cuida de diretórios agora
 					mappings = {
 						-- your custom insert mode mappings
 						["n"] = {
@@ -293,22 +270,50 @@ return {
 		opts = {},
 	},
 
+	-- diffview substituído pelo codediff.nvim (abaixo). Para voltar, descomente.
+	-- {
+	-- 	"sindrets/diffview.nvim",
+	-- 	dependencies = { "nvim-lua/plenary.nvim" },
+	-- 	cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+	-- 	keys = {
+	-- 		{ "<leader>gdo", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" },
+	-- 		{ "<leader>gdc", "<cmd>DiffviewClose<cr>", desc = "Diffview Close" },
+	-- 		{ "<leader>gdh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History (current)" },
+	-- 		{ "<leader>gdH", "<cmd>DiffviewFileHistory<cr>", desc = "File History (all)" },
+	-- 	},
+	-- 	opts = {
+	-- 		enhanced_diff_hl = true,
+	-- 		view = {
+	-- 			merge_tool = {
+	-- 				layout = "diff3_mixed",
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
+
+	-- codediff.nvim: diff estilo VS Code com árvore de arquivos, histórico,
+	-- PRs e resolução de conflitos. `q` fecha a aba do diff.
 	{
-		"sindrets/diffview.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
-		cmd = { "DiffviewOpen", "DiffviewFileHistory" },
+		"esmuellert/codediff.nvim",
+		cmd = "CodeDiff",
 		keys = {
-			{ "<leader>gdo", "<cmd>DiffviewOpen<cr>", desc = "Diffview Open" },
-			{ "<leader>gdc", "<cmd>DiffviewClose<cr>", desc = "Diffview Close" },
-			{ "<leader>gdh", "<cmd>DiffviewFileHistory %<cr>", desc = "File History (current)" },
-			{ "<leader>gdH", "<cmd>DiffviewFileHistory<cr>", desc = "File History (all)" },
+			{ "<leader>gdo", "<cmd>CodeDiff<cr>", desc = "CodeDiff (mudanças do repo)" },
+			{ "<leader>gdm", "<cmd>CodeDiff main<cr>", desc = "CodeDiff vs main" },
+			{ "<leader>gds", "<cmd>CodeDiff --staged<cr>", desc = "CodeDiff (staged)" },
+			{ "<leader>gdh", "<cmd>CodeDiff history %<cr>", desc = "Histórico (arquivo atual)" },
+			{ "<leader>gdH", "<cmd>CodeDiff history<cr>", desc = "Histórico (repo)" },
 		},
 		opts = {
-			enhanced_diff_hl = true,
-			view = {
-				merge_tool = {
-					layout = "diff3_mixed",
-				},
+			explorer = {
+				width = 50,
+				auto_open_on_cursor = true,
+				view_mode = "tree", -- "list" ou "tree"
+				line_stats = { enabled = true },
+			},
+			diff = {
+				compact = true,
+				compact_context_lines = 8,
+				compact_sync_folds = true,
 			},
 		},
 	},
@@ -330,6 +335,127 @@ return {
 				-- <C-space> is eaten by tmux (prefix key) and <A-space> by
 				-- macOS Spotlight, so use <C-x> to manually open the menu.
 				["<C-x>"] = { "show", "show_documentation", "hide_documentation" },
+			},
+		},
+	},
+
+	-- oil.nvim: explorador de arquivos editável como buffer (sf abre flutuando)
+	{
+		"stevearc/oil.nvim",
+		lazy = false,
+		keys = {
+			{
+				"sf",
+				function()
+					require("oil").open_float(nil, { preview = {} })
+				end,
+				desc = "Oil (file explorer)",
+			},
+			{
+				"-",
+				function()
+					require("oil").open_float(nil, { preview = {} })
+				end,
+				desc = "Oil (pasta do arquivo atual)",
+			},
+		},
+		opts = {
+			default_file_explorer = true,
+			-- só ícone + nome, como no neo-tree. `gd` mostra/esconde os detalhes.
+			columns = { "icon" },
+			keymaps = {
+				["h"] = { "actions.parent", mode = "n" },
+				["l"] = { "actions.select", mode = "n" },
+				["q"] = { "actions.close", mode = "n" },
+				["gd"] = {
+					desc = "Toggle detail view",
+					callback = function()
+						vim.g.oil_detail = not vim.g.oil_detail
+						if vim.g.oil_detail then
+							require("oil").set_columns({
+								"icon",
+								{ "permissions", highlight = "Type" },
+								{ "size", highlight = "String" },
+								{ "mtime", highlight = "Keyword" },
+							})
+						else
+							require("oil").set_columns({ "icon" })
+						end
+					end,
+				},
+			},
+			view_options = { show_hidden = true },
+			float = {
+				border = "rounded",
+				win_options = { winblend = 0 },
+				max_width = 200,
+			},
+			preview_win = { update_on_cursor_moved = true },
+			lsp_file_methods = {
+				enabled = true,
+				timeout_ms = 1000,
+				autosave_changes = true,
+			},
+		},
+	},
+
+	-- mini.diff: só pelo overlay estilo `git diff` (<leader>gv). Os signs
+	-- continuam com o gitsigns; os do mini ficam em branco e com prioridade baixa.
+	{
+		"nvim-mini/mini.diff",
+		event = "BufReadPre",
+		keys = {
+			{
+				"<leader>gv",
+				function()
+					require("mini.diff").toggle_overlay()
+				end,
+				desc = "Toggle diff overlay (mini.diff)",
+			},
+		},
+		opts = {
+			view = {
+				style = "sign",
+				signs = { add = " ", change = " ", delete = " " },
+				priority = 1,
+				overlay_style = "hunk",
+			},
+			mappings = {
+				apply = "",
+				reset = "",
+				textobject = "",
+				goto_first = "",
+				goto_prev = "",
+				goto_next = "",
+				goto_last = "",
+			},
+		},
+	},
+
+	-- gitlinker: copia/abre o link do GitHub da linha/seleção
+	{
+		"linrongbin16/gitlinker.nvim",
+		cmd = "GitLink",
+		keys = {
+			{ "<leader>gy", "<cmd>GitLink<cr>", mode = { "n", "v" }, desc = "Copy git permalink" },
+			{ "<leader>gO", "<cmd>GitLink!<cr>", mode = { "n", "v" }, desc = "Open git permalink" },
+		},
+		opts = {},
+	},
+
+	-- snacks.explorer: árvore lateral no <leader>e (atalhos vêm do extra do LazyVim).
+	-- `nvim .` continua abrindo o oil (replace_netrw = false).
+	{
+		"folke/snacks.nvim",
+		opts = {
+			explorer = { replace_netrw = false },
+			picker = {
+				sources = {
+					explorer = {
+						hidden = true, -- mostra dotfiles
+						ignored = true, -- mostra o que está no .gitignore (ex: dist/, node_modules/)
+					},
+				},
 			},
 		},
 	},

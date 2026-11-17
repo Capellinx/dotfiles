@@ -186,6 +186,34 @@ return {
 						{ "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", has = "definition", desc = "Goto Definition" },
 					},
 				},
+				-- gI em TS/JS: pula pro código-fonte real (não pro .d.ts)
+				vtsls = {
+					keys = {
+						{
+							"gI",
+							function()
+								local client = vim.lsp.get_clients({ bufnr = 0, name = "vtsls" })[1]
+								if not client then
+									return vim.lsp.buf.implementation()
+								end
+								local params = vim.lsp.util.make_position_params(0, "utf-16")
+								client:request("workspace/executeCommand", {
+									command = "typescript.goToSourceDefinition",
+									arguments = { params.textDocument.uri, params.position },
+								}, function(err, result)
+									if err then
+										vim.notify("goToSourceDefinition: " .. err.message, vim.log.levels.ERROR)
+									elseif result and #result > 0 then
+										vim.lsp.util.show_document(result[1], "utf-16", { focus = true })
+									else
+										vim.notify("No source definition found", vim.log.levels.INFO)
+									end
+								end, 0)
+							end,
+							desc = "Goto Source Definition / Implementation",
+						},
+					},
+				},
 			},
 		},
 	},

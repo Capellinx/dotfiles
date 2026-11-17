@@ -25,3 +25,16 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt.conceallevel = 0
 	end,
 })
+
+-- Workaround neovim/neovim#40290 (do craftzdog): o refresh de folds do treesitter
+-- ao mudar 'foldminlines' não checa se o buffer ainda existe. O modo compacto do
+-- codediff muda essa opção a cada troca de arquivo e crasha com "Invalid buffer id"
+-- quando um buffer de diff já foi fechado. Remover quando corrigirem no Neovim.
+pcall(function()
+	require("vim.treesitter._fold")
+	for _, au in ipairs(vim.api.nvim_get_autocmds({ event = "OptionSet" })) do
+		if au.desc == "Refresh treesitter folds" then
+			vim.api.nvim_del_autocmd(au.id)
+		end
+	end
+end)

@@ -18,7 +18,7 @@ require("lazy").setup({
 			"LazyVim/LazyVim",
 			import = "lazyvim.plugins",
 			opts = {
-				colorscheme = "catppuccin-macchiato",
+				colorscheme = "solarized-osaka",
 				news = {
 					lazyvim = true,
 					neovim = true,
@@ -42,8 +42,9 @@ require("lazy").setup({
 		{ import = "lazyvim.plugins.extras.dap.core" },
 		-- { import = "lazyvim.plugins.extras.vscode" },
 		{ import = "lazyvim.plugins.extras.util.mini-hipatterns" },
-		{ import = "lazyvim.plugins.extras.editor.neo-tree" },
-		{ import = "lazyvim.plugins.extras.ui.treesitter-context" },
+		-- { import = "lazyvim.plugins.extras.editor.neo-tree" }, -- trocado pelo snacks.explorer + oil
+		{ import = "lazyvim.plugins.extras.editor.snacks_explorer" },
+		-- { import = "lazyvim.plugins.extras.ui.treesitter-context" }, -- desativado: função/método fixo no topo ao rolar
 		{ import = "lazyvim.plugins.extras.test.core" },
 		-- { import = "lazyvim.plugins.extras.coding.yanky" },
 		-- { import = "lazyvim.plugins.extras.editor.mini-files" },

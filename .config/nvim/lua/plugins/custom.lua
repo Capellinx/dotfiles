@@ -1,22 +1,24 @@
 return {
-	-- Always show dotfiles, and round the popup borders (rename, filter/search, confirm)
-	{
-		"nvim-neo-tree/neo-tree.nvim",
-		opts = {
-			popup_border_style = "rounded",
-			filesystem = {
-				filtered_items = {
-					hide_dotfiles = false,
-					hide_gitignored = false,
-				},
-			},
-			window = {
-				mappings = {
-					["P"] = { "toggle_preview", config = { use_float = true } },
-				},
-			},
-		},
-	},
+	-- neo-tree desativado (oil.nvim é o explorador principal). Para voltar,
+	-- descomente aqui e o import do extra em lua/config/lazy.lua.
+	-- -- Always show dotfiles, and round the popup borders (rename, filter/search, confirm)
+	-- {
+	-- 	"nvim-neo-tree/neo-tree.nvim",
+	-- 	opts = {
+	-- 		popup_border_style = "rounded",
+	-- 		filesystem = {
+	-- 			filtered_items = {
+	-- 				hide_dotfiles = false,
+	-- 				hide_gitignored = false,
+	-- 			},
+	-- 		},
+	-- 		window = {
+	-- 			mappings = {
+	-- 				["P"] = { "toggle_preview", config = { use_float = true } },
+	-- 			},
+	-- 		},
+	-- 	},
+	-- },
 
 	-- Toggleterm for lazygit and lazydocker
 	{
