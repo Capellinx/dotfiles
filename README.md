@@ -6,12 +6,12 @@ Based on [craftzdog/dotfiles-public](https://github.com/craftzdog/dotfiles-publi
 
 ## What's included
 
-Everything uses the same **Catppuccin Macchiato** theme (nvim, tmux, Ghostty, vi-mongo).
+Neovim and Ghostty share the **Solarized Osaka (vivid)** theme, transparent with blur. tmux and vi-mongo still use **Catppuccin Macchiato**.
 
-- **Neovim** (LazyVim) - catppuccin theme, neo-tree file explorer, telescope, cokeline buffer tabs, toggleterm, supermaven AI, zen-mode, DAP debugging, treesitter-context, test runner, VS Code-like multi-cursor and inline (Error Lens style) diagnostics. Format on save is off: format manually with `<leader>cf`
+- **Neovim** (LazyVim, requires 0.12+) - solarized-osaka vivid theme (transparent, incl. sidebars/floats), native floating cmdline/messages (`vim._core.ui2` + tiny-cmdline, noice disabled), snacks.explorer tree + oil.nvim for batch file edits, dashboard on `nvim` and `nvim .`, telescope, cokeline buffer tabs, codediff (diff/history/PR/conflicts), mini.diff overlay, gitlinker permalinks, octo (PR review), GitHub Actions, flutter-tools, toggleterm, zen-mode, DAP debugging, test runner, VS Code-like multi-cursor and inline (Error Lens style) diagnostics. Format on save is off: format manually with `<leader>cf`
 - **tmux** - C-Space prefix, lazygit/claude code popups, catppuccin statusline. Not auto-started: open it on demand with `t`
 - **Fish** - tide prompt, eza aliases, zoxide, fzf integration, `t` tmux helper, `android`/`ios` emulator pickers
-- **Ghostty** - Catppuccin Macchiato theme, transparency, FiraCode Nerd Font
+- **Ghostty** - Solarized Dark Vivid theme (matches nvim), transparency + blur, FiraCode Nerd Font
 - **vi-mongo** - catppuccin and onedark style files
 - **shiki** - terminal notes app config
 - **Claude Code** - custom statusline (context/rate-limit/git/CI info)
@@ -23,13 +23,16 @@ Everything uses the same **Catppuccin Macchiato** theme (nvim, tmux, Ghostty, vi
 - Git
 - [Rust/Cargo](https://rustup.rs) (for shiki)
 - [FiraCode Nerd Font](https://www.nerdfonts.com/font-downloads)
+- Neovim **0.12+** (native `ui2` cmdline)
+- [GitHub CLI](https://cli.github.com) authenticated (`gh auth login`) for octo, GitHub Actions and codediff PRs
+- Optional: [Flutter SDK](https://docs.flutter.dev/get-started/install) on `PATH` - flutter-tools only loads when `flutter` is found
 
 ## Manual setup
 
 ### 1. Install dependencies
 
 ```bash
-brew install neovim tmux fish ghostty eza zoxide fzf lazygit lazydocker vi-mongo
+brew install neovim tmux fish ghostty eza zoxide fzf lazygit lazydocker vi-mongo gh
 cargo install shiki
 ```
 
@@ -118,17 +121,28 @@ Then ask:
 
 ### Neovim
 
-**File navigation:** `<leader>e` neo-tree (root), `<leader>E` neo-tree (cwd), `sf` telescope file browser, `;f` find files, `;r` live grep, `<Tab>`/`<S-Tab>` next/prev buffer
+**Explorer:** `<leader>e` snacks.explorer tree (root), `<leader>E` tree (cwd), `sf` / `-` oil (float, current file dir), `;f` find files, `;r` live grep, `<Tab>`/`<S-Tab>` next/prev buffer
 
-**LSP:** `gd` go to definition, `gr` references, `K` hover, `<leader>rn` rename
+- *Tree:* `l`/`h` expand/collapse, `a` add (end with `/` for folder), `r` rename, `m` move, `c` copy, `d` delete, `Tab` multi-select, `/` filter, `?` help
+- *Oil:* edit the directory like text and `:w` to apply (rename with `cw`, move with `dd`/`p`, batch rename with `:s`). `h`/`l` parent/open, `gd` toggle details, `<C-p>` preview, `g?` help
 
-**Git:** `<leader>gg` lazygit, `<leader>gb` git blame
+**LSP:** `gd` go to definition, `gI` TS source definition (skips `.d.ts`), `gr` references, `K` hover, `<leader>rn` rename
 
-**Editing:** `x` delete char (no copy), `<leader>p` paste from yank, `ss`/`sv` splits, `<leader>z` zen mode, `<leader>cf` format
+**Git:** `<leader>gg` lazygit, `<leader>gb` git blame, `<leader>gv` mini.diff overlay, `<leader>gy` copy GitHub permalink, `<leader>gO` open permalink
+
+**Diff (codediff):** `<leader>gdo` repo changes, `<leader>gdm` vs main, `<leader>gds` staged, `<leader>gdh` file history, `<leader>gdH` repo history, `:CodeDiff pr <n>` review a PR without checkout, `q` closes
+
+**PR review (octo):** `<leader>gpl` list PRs, `<leader>gpr` start review, `<leader>gpa` submit review, `<leader>gpd` PR diff, `<leader>gpc` checkout
+
+**GitHub Actions:** `<leader>gah` history, `<leader>gap` history by branch/PR, `<leader>gaw` watch run, `<leader>gad` dispatch, `<leader>gao` open in browser. In history: `l` expand/logs, `R` rerun, `C` cancel
+
+**Flutter:** `<leader>Fc` command picker, `<leader>Fr` run, `<leader>Fd` devices, `<leader>Fe` emulators, `<leader>Fh` hot reload, `<leader>FR` hot restart, `<leader>Fq` quit, `<leader>Fl` logs, `<leader>Fo` widget outline, `<leader>Ft` DevTools
+
+**Editing:** `gcc` toggle comment, `yyp` duplicate line, `<M-j>`/`<M-k>` move line, `x` delete char (no copy), `<leader>p` paste from yank, `ss`/`sv` splits, `<leader>z` zen mode, `<leader>cf` format
 
 **Multi-cursor:** `<C-n>` add cursor at next match, `<leader>A` cursors at all matches, `<M-Up>`/`<M-Down>` add cursor above/below, `<C-q>` skip match, `<Esc>` clear cursors
 
-**Popups:** `<leader>tt` terminal, `<leader>ai` Claude Code, `<leader>ld` lazydocker
+**Terminal & popups:** `<C-->` / `<C-/>` terminal (root), `<leader>tt` terminal popup, `<leader>ai` Claude Code, `<leader>ld` lazydocker
 
 ### tmux (prefix: Ctrl+Space)
 
